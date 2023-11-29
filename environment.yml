@@ -1,0 +1,19 @@
+name: pytorch_learn
+channels:
+  - pytorch
+  - nvidia
+  - default
+dependencies:
+  - python=3.7
+  - pip
+  - pytorch==1.13.1
+  - torchvision==0.14.1
+  - torchaudio==0.13.1
+  - pytorch-cuda=11.7.0
+  - numpy
+  - pandas
+  - jupyter
+  - pip:
+      - requests
+      - matplotlib
+      - seaborn
