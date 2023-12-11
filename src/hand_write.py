@@ -89,8 +89,26 @@ for epoch in range(100):
         optimizer.step()
         _logger.info(f"epoch is {epoch + 1}, ite = {i}/{len(train_data) // batch_size} loss = {loss.item()} ")
 
+    # eval/test
+    ## lost_test 计算测试集上的总损失
+    loss_test = 0
+    ## accuracy 用来累计正确的预测数量
+    accuracy = 0
+    for i, (images, labels) in enumerate(test_loader):
+        images = images.to(device)
+        labels = labels.to(device)
+        outputs = cnn(images)
+        # 依然是采用交叉熵来计算每批数据的损失，累加到 loss_test
+        loss_test += loss_func(outputs, labels)
 
-# eval/test
+        # 计算准确度
+        ## outputs.max(1) 返回每个样本最大概率的类别的索引，这些索引和实际标签 labels 进行比较，统计正确的预测数量并累加到
+        # accuracy
+        _, pred = outputs.max(1)
+        accuracy += (pred == labels).sum().item()
+
+    accuracy = accuracy / len(test_data)
+    loss_test = loss_test / (len(test_data) // 64)
 
 # save
 
